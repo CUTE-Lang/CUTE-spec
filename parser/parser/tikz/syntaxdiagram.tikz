@@ -10,8 +10,6 @@
       grow right sep,%
       branch down=7mm,%
       simple,%
-      n/.code=\def\n{#1}
-      declare={indent}{{\foreach \i in {1,...,\n} {indent\i --}}}
     },%
     graphs/optional move/.style args={##1/##2}{%
       nodes={%
@@ -24,12 +22,6 @@
       minimum size=8mm,%
       draw=black!0,%
       font=\itshape\bfseries,%
-    },%
-    terminal/.style={%
-      rounded rectangle,%
-      minimum size=6mm,%
-      draw=black!87,%
-      font=\ttfamily,%
     },%
     start/.style={%
       execute at begin to={
@@ -46,10 +38,16 @@
         --(\tikztotarget)%
       },%
     },%
+    terminal/.style={%
+      rounded rectangle,%
+      minimum size=6mm,%
+      draw=black,%
+      font=\ttfamily,%
+    },%
     nonterminal/.style={%
       rectangle,%
       minimum size=6mm,%
-      draw=black!87,%
+      draw=black,%
       font=\itshape,%
     },%
     rep way/.style args={##1/##2}{%
