@@ -59,7 +59,9 @@ Context-free grammer expressed by syntax diagram is the following.
   \graph{
     top def[definition],
     i0 -!- i1 -!-
-    start --[start] p0 -> top f def[nonterminal] -- p1 --[end] end;
+    start --[start] p0 --
+    p1 -> top f def[nonterminal] --
+    p2 -> p3 --[end] end;
   };
 \end{tikzpicture}
 
@@ -68,8 +70,12 @@ Context-free grammer expressed by syntax diagram is the following.
   \graph{
     top f def0/top f def[definition],
     i0 -!- i1 -!-
-    start --[start] p0 -> f def[nonterminal] -- p1 ->
-    where st[nonterminal] -- p2 --[end] end;
+    start --[start] p0 --
+    p1 -> f def[nonterminal] --
+    p2 -> with st[nonterminal] --
+    p3 -> p4 --[end] end;
+
+    p2 --[skip way=0.5mm/-7mm] p3;
   };
 \end{tikzpicture}
 
@@ -78,8 +84,10 @@ Context-free grammer expressed by syntax diagram is the following.
   \graph{
     f def0/f def[definition],
     i0 -!- i1 -!-
-    start --[start] p0 -> f head[nonterminal] -- p1 ->
-    f body[nonterminal] -- p2 --[end] end;
+    start --[start] p0 --
+    p1 -> f head[nonterminal] --
+    p2 -> f body[nonterminal] --
+    p3 -> p4 --[end] end;
   };
 \end{tikzpicture}
 
@@ -112,10 +120,12 @@ Context-free grammer expressed by syntax diagram is the following.
 \noindent
 \begin{tikzpicture}[syntaxdiagram]
   \graph{
-    where st0/where st[definition],
+    with st0/with st[definition],
     i0 -!- i1 -!-
-    start --[start] p0 -> where[terminal] --
-    p1 -> f def[nonterminal] -- p2 -> p3 --[end] end;
+    start --[start] p0 --
+    p1 -> with[terminal] --
+    p2 -> f def[nonterminal] --
+    p3 -> p4 --[end] end;
 
     p2 --[rep way=0.5mm/-7mm] p1;
   };
@@ -127,18 +137,12 @@ Context-free grammer expressed by syntax diagram is the following.
     expr0/expr[definition],
     i0 -!- i1 -!-
     start --[start] p0 --
-    p1 ->[vh way=0.5mm]
-    { infix expr[nonterminal] -- infp0 ->[vh way=0.5mm]
-      { infp1,
-        "$\dashv$"[terminal] -- infp2 -> type[nonterminal],
-      } --[hv way=0.5mm] infp3,
-    } --[hv way=0.5mm]
-    p2 --[end] end;
+    p1 -> infix expr[nonterminal] --
+    p2 -> "$\dashv$"[terminal] --
+    p3 -> type[nonterminal] --
+    p4 -> p5 --[end] end;
 
-    p1 -- infix expr;
-    infp3 -- p2;
-
-    infp0 -- infp1 -- infp3;
+    p2 --[skip way=0.5mm/-7mm] p4;
   };
 \end{tikzpicture}
 
@@ -176,9 +180,9 @@ Context-free grammer expressed by syntax diagram is the following.
       "$\rightarrow$"[terminal] -- lamp2 -> expr5/expr[nonterminal],
       lamp3,
     } --[hv way=0.5mm]
-    p2 --[end] end;
+    p2 -> p3 --[end] end;
 
-    p1 -- left expr1;
+    p1 -> left expr1;
     infix expr1 -- p2;
     p1 -!- letp3 -!- p2;
     p1 -!- lamp3 -!- p2;
@@ -194,7 +198,8 @@ Context-free grammer expressed by syntax diagram is the following.
     left expr0/left expr[definition],
     i0 -!- i1 -!-
     start --[start] p0 --
-    p1 -> f expr[nonterminal] -- p2 --[end] end;
+    p1 -> f expr[nonterminal] --
+    p2 -> p3 --[end] end;
   };
 \end{tikzpicture}
 
@@ -206,7 +211,7 @@ Context-free grammer expressed by syntax diagram is the following.
     start --[start] p0 --
     p1 -> f expr[nonterminal] --
     p2 -> a expr[nonterminal] --
-    p3 -> [end] end;
+    p3 -> p4 --[end] end;
 
     p1 --[skip way=0.5mm/-7mm] p2;
   };
