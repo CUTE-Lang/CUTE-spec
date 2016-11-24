@@ -72,10 +72,10 @@ Context-free grammer expressed by syntax diagram is the following.
     i0 -!- i1 -!-
     start --[start] p0 --
     p1 -> f def[nonterminal] --
-    p2 -> with st[nonterminal] --
-    p3 -> p4 --[end] end;
+    p2 -- p3 -> with st[nonterminal] -- p4 --
+    p5 -> p6 --[end] end;
 
-    p2 --[skip way=0.5mm/-7mm] p3;
+    p2 --[skip way=0.5mm/-7mm] p5;
   };
 \end{tikzpicture}
 
@@ -99,13 +99,13 @@ Context-free grammer expressed by syntax diagram is the following.
     start --[start] p0 -> f id[nonterminal] --
     p1 --[vh way=0.5mm]
     {
-      p2,
-      param pat[nonterminal],
+      param q0,
+      param param pat0/param pat[nonterminal] --
     } --[hv way=0.5mm]
-    p3 -> p4 --[end] end;
+    p2 -> p3 --[end] end;
 
-    p1 -- p2 -- p3;
-    p3 ->[vh way=0.5mm] param pat --[hv way=0.5mm] p1;
+    p1 -- param q0 -- p2;
+    p2 ->[vh way=0.5mm] param param pat0 --[hv way=0.5mm] p1;
   };
 \end{tikzpicture}
 
@@ -141,11 +141,11 @@ Context-free grammer expressed by syntax diagram is the following.
     i0 -!- i1 -!-
     start --[start] p0 --
     p1 -> infix expr[nonterminal] --
-    p2 -> "$\dashv$"[terminal] --
-    p3 -> type[nonterminal] --
-    p4 -> p5 --[end] end;
+    p2 -- p3 -> "$\dashv$"[terminal] --
+    p4 -> type[nonterminal] -- p5 --
+    p6 -> p7 --[end] end;
 
-    p2 --[skip way=0.5mm/-7mm] p4;
+    p2 --[skip way=0.5mm/-7mm] p6;
   };
 \end{tikzpicture}
 
@@ -163,40 +163,52 @@ Context-free grammer expressed by syntax diagram is the following.
     infixexpr0/infix expr[definition],
     i0 -!- i1 -!-
     start --[start] p0 --
-    p1 ->[vh way=0.5mm]
+    p1 --[vh way=0.5mm]
     {
-      biop left expr0/left expr[nonterminal] --
-      biop p0 -> biop biop0/biop[nonterminal] --
-      biop p1 -> biop infix expr0/infix expr[nonterminal],
+      biop p0 -> biop left expr0/left expr[nonterminal] --
+      biop p1 -> biop biop0/biop[nonterminal] --
+      biop p2 -> biop infix expr0/infix expr[nonterminal] --
+      biop p3,
       %
-      unop unop0/unop[nonterminal] --
-      unop0 -> unop left expr0/left expr[nonterminal],
+      unop p0 -> unop unop0/unop[nonterminal] --
+      unop p1 -> unop left expr0/left expr[nonterminal] --
+      unop p2,
       %
-      left expr left expr0/left expr[nonterminal],
+      left expr p0 -> left expr left expr0/left expr[nonterminal] --
+      left expr p1,
       %
-      if[terminal] -- if p0 -> if expr0/expr[nonterminal] -- if p1 ->
-      then[terminal] -- if p2 -> if expr1/expr[nonterminal] -- if p3 ->
-      else[terminal] -- if p4 -> if expr2/expr[nonterminal],
+      if p0 -> if[terminal] --
+      if p1 -> if expr0/expr[nonterminal] --
+      if p2 -> then[terminal] --
+      if p3 -> if expr1/expr[nonterminal] --
+      if p4 -> else[terminal] --
+      if p5 -> if expr2/expr[nonterminal] --
+      if p6,
       % 
-      let[terminal] -- let p0 -> let f def0/f def[nonterminal] -- let p1 ->
-      in[terminal] -- let p2 -> let expr0/expr[nonterminal],
-      let space,
+      let p0 -> let[terminal] --
+      let p1 -> let f def0/f def[nonterminal] --
+      let p2 -> in[terminal] --
+      let p3 -> let expr0/expr[nonterminal] --
+      let p4,
+      let space0,
       % 
-      "$\lambda$"[terminal] --
-      lam p0 -> lam param pat0/param pat[nonterminal] --
-      lam p1 -> "$\rightarrow$"[terminal] --
-      lam p2 -> lam expr0/expr[nonterminal],
-      lam space,
+      lam p0 -> "$\lambda$"[terminal] --
+      lam p1 -> lam param pat0/param pat[nonterminal] --
+      lam p2 -> "$\rightarrow$"[terminal] --
+      lam p3 -> lam expr0/expr[nonterminal] --
+      lam p4,
+      lam space0,
     } --[hv way=0.5mm]
     p2 -> p3 --[end] end;
 
-    p1 -> biop left expr0;
-    biop infix expr0 -- p2;
-    p1 -!- let space -!- p2;
-    p1 -!- lam space -!- p2;
+    p1 -- biop p0;
+    biop p3 -- p2;
 
-    let p1 --[rep way=0.5mm/-7mm] let p0;
-    lam p1 --[rep way=0.5mm/-7mm] lam p0;
+    p1 -!- let space0 -!- p2;
+    let p2 --[rep way=0.5mm/-7mm] let p1;
+
+    p1 -!- lam space0 -!- p2;
+    lam p2 --[rep way=0.5mm/-7mm] lam p1;
   };
 \end{tikzpicture}
 
@@ -217,11 +229,11 @@ Context-free grammer expressed by syntax diagram is the following.
     f expr0/f expr[definition],
     i0 -!- i1 -!-
     start --[start] p0 --
-    p1 -> f expr1/f expr[nonterminal] --
-    p2 -> a expr[nonterminal] --
-    p3 -> p4 --[end] end;
+    p1 -- p2 -> f expr1/f expr[nonterminal] -- p3 --
+    p4 -> a expr[nonterminal] --
+    p5 -> p6 --[end] end;
 
-    p1 --[skip way=0.5mm/-7mm] p2;
+    p1 --[skip way=0.5mm/-7mm] p4;
   };
 \end{tikzpicture}
 

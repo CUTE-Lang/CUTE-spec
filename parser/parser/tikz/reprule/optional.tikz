@@ -1,7 +1,7 @@
 \begin{tikzpicture}[syntaxdiagram]
   \graph{
-    start --[start] p0 -- p1 -> x[nonterminal] -- p2 -> p3 --[end] end;
+    start --[start] p0 -- p1 -- p2 -> x[nonterminal] -- p3 -- p4 -> p5 --[end] end;
 
-    p1 --[skip way=0.5mm/-7mm] p2;
+    p1 --[skip way=0.5mm/-7mm] p4;
   };
 \end{tikzpicture}
