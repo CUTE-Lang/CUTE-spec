@@ -1,0 +1,5 @@
+\begin{tikzpicture}[syntaxdiagram]
+  \graph{
+    start --[start] p0 -> x/x${}_{/y}$[nonterminal] -- p1 --[end] end;
+  };
+\end{tikzpicture}
