@@ -1,0 +1,5 @@
+\begin{tikzpicture}[syntaxdiagram]
+  \graph{
+    start --[start] p0 -> a[nonterminal] -- p1 -> b[nonterminal] -- p2 --[end] end;
+  };
+\end{tikzpicture}

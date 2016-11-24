@@ -1,0 +1,157 @@
+\documentclass[a4paper, article, oneside]{memoir}
+
+\usepackage{tikz}
+\usetikzlibrary{%
+  arrows,%
+  arrows.meta,%
+  calc,%
+  shapes,%
+  graphs,%
+  positioning,%
+}
+\newcommand{\tikzinput}[1]{\input{tikz/#1.tikz}}
+\tikzinput{syntaxdiagram}
+
+\newcommand{\repruleinput}[1]{%
+  \begin{minipage}{2in}%
+    \centering%
+    \vspace{2ex}%
+    \tikzinput{reprule/#1}%
+    \vspace{1ex}%
+  \end{minipage}%
+}
+
+\usepackage{multirow}
+
+\begin{document}
+\chapter{Context-free grammer for CUTE Lang}
+This chapter explains what context-free grammer is used in CUTE Lang.
+To explain efficiently, grammer is explained by syntax diagram.
+
+\section{Syntax diagram representation rules}
+Representation rules of syntax diagram are on Table~\ref{tab:Representation_rules_of_syntax_diagram}.
+
+\begin{table}[!htb]
+  \centering
+  \begin{tabular}{ccc}
+    \cline{1-3}
+    Repesentation & EBNF Equivalent & Meaning\\
+    \cline{1-3}
+    \repruleinput{nonterminal} & x & Nonterminal\\ \cline{1-3}
+    \repruleinput{terminal} & ``x'' & Terminal\\ \cline{1-3}
+    \repruleinput{sequence} & a, b & Sequence\\ \cline{1-3}
+    \repruleinput{selection} & a \textbar{} b & Selections\\ \cline{1-3}
+    \repruleinput{optional} & ( x ) & Optional\\ \cline{1-3}
+    \repruleinput{zerorepeat} & [ x ] & Zero or more repeat\\ \cline{1-3}
+    \repruleinput{onerepeat} & x, [ x ] & One or more repeat\\ \cline{1-3}
+  \end{tabular}
+  \caption{Representation rules of syntax diagram}
+  \label{tab:Representation_rules_of_syntax_diagram}
+\end{table}
+
+\section{Syntax diagram for context-free grammer}
+Context-free grammer expressed by syntax diagram is the following.
+
+\noindent
+\begin{tikzpicture}[syntaxdiagram]
+  \graph{
+    top def[definition],
+    i0 -!- i1 -!-
+    start --[start] p0 -> top f def[nonterminal] -- p1 --[end] end;
+  };
+\end{tikzpicture}
+
+\noindent
+\begin{tikzpicture}[syntaxdiagram]
+  \graph{
+    top f def0/top f def[definition],
+    i0 -!- i1 -!-
+    start --[start] p0 -> f def[nonterminal] -- p1 ->
+    where st[nonterminal] -- p2 --[end] end;
+  };
+\end{tikzpicture}
+
+\noindent
+\begin{tikzpicture}[syntaxdiagram]
+  \graph{
+    f def0/f def[definition],
+    i0 -!- i1 -!-
+    start --[start] p0 -> f head[nonterminal] -- p1 ->
+    f body[nonterminal] -- p2 --[end] end;
+  };
+\end{tikzpicture}
+
+\noindent
+\begin{tikzpicture}[syntaxdiagram]
+  \graph{
+    f head0/f head[definition],
+    i0 -!- i1 -!-
+    start --[start] p0 -> f id[nonterminal] --
+    p1 --[vh way=0.5mm]
+    { p2,
+      param pat[nonterminal],
+    } --[hv way=0.5mm]
+    p3 -> p4 --[end] end;
+
+    p1 -- p2 -- p3;
+    p3 ->[vh way=0.5mm] param pat --[hv way=0.5mm] p1;
+  };
+\end{tikzpicture}
+
+\noindent
+\begin{tikzpicture}[syntaxdiagram]
+  \graph{
+    f body0/f body[definition],
+    i0 -!- i1 -!-
+    start --[start] p0 -> expr[nonterminal] -- p1 --[end] end;
+  };
+\end{tikzpicture}
+
+\noindent
+\begin{tikzpicture}[syntaxdiagram]
+  \graph{
+    where st0/where st[definition],
+    i0 -!- i1 -!-
+    start --[start] p0 -> where[terminal] --
+    p1 -> f def[nonterminal] -- p2 -> p3 --[end] end;
+
+    p2 --[rep way=0.5mm/-7mm] p1;
+  };
+\end{tikzpicture}
+
+\noindent
+\begin{tikzpicture}[syntaxdiagram]
+  \graph{
+    expr0/expr[definition],
+    i0 -!- i1 -!-
+    start --[start]
+    p0 ->[vh way=0.5mm]
+    { if[terminal] -- p1 -> expr1/expr[nonterminal] -- p2 ->
+      then[terminal] -- p3 -> expr2/expr[nonterminal] -- p4 ->
+      else[terminal] -- p5 -> expr3/expr[nonterminal],
+      let[terminal] -- p7 -> f def[nonterminal] -- p8 ->
+      in[terminal] -- p9 -> expr4/expr[nonterminal],
+      p10,
+      infix expr[nonterminal] -- p11 ->[vh way=0.5mm]
+      { p12,
+        "::"[terminal] -- p13 -> type[nonterminal],
+      } --[hv way=0.5mm] p14,
+    } --[hv way=0.5mm]
+    p15 --[end] end;
+
+    p0 -- if;
+    p0 -!- p10;
+    expr3 -- p15;
+    p10 -!- p15;
+
+    p8 --[rep way=0.5mm/-7mm] p7;
+
+    p11 -- p12 -- p14;
+  };
+\end{tikzpicture}
+
+\end{document}
+%
+%%% Local Variables:
+%%% TeX-engine: xetex
+%%% End:
