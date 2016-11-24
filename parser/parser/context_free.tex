@@ -142,6 +142,76 @@ Context-free grammer expressed by syntax diagram is the following.
   };
 \end{tikzpicture}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% If [If expression] is an left expression,
+% we cannot deterministically parse following statement.
+% ```
+%  if true then 1 else 2 + 3
+% ```
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent
+\begin{tikzpicture}[syntaxdiagram]
+  \graph{
+    infixexpr0/infix expr[definition],
+    i0 -!- i1 -!-
+    start --[start] p0 --
+    p1 ->[vh way=0.5mm]
+    { left expr1/left expr[nonterminal] -- biopp0 ->
+      biop[nonterminal] -- biopp1 -> infix expr1/infix expr[nonterminal],
+      %
+      unop[nonterminal] -- unop0 -> left expr2/left expr[nonterminal],
+      %
+      left expr3/left expr[nonterminal],
+      %
+      if[terminal] -- ifp0 -> expr1/expr[nonterminal] -- ifp1 ->
+      then[terminal] -- ifp2 -> expr2/expr[nonterminal] -- ifp3 ->
+      else[terminal] -- ifp4 -> expr3/expr[nonterminal],
+      % 
+      let[terminal] -- letp0 -> f def[nonterminal] -- letp1 ->
+      in[terminal] -- letp2 -> expr4/expr[nonterminal],
+      letp3,
+      % 
+      "$\lambda$"[terminal] -- lamp0 -> param pat[nonterminal] -- lamp1 ->
+      "$\rightarrow$"[terminal] -- lamp2 -> expr5/expr[nonterminal],
+      lamp3,
+    } --[hv way=0.5mm]
+    p2 --[end] end;
+
+    p1 -- left expr1;
+    infix expr1 -- p2;
+    p1 -!- letp3 -!- p2;
+    p1 -!- lamp3 -!- p2;
+
+    letp1 --[rep way=0.5mm/-7mm] letp0;
+    lamp1 --[rep way=0.5mm/-7mm] lamp0;
+  };
+\end{tikzpicture}
+
+\noindent
+\begin{tikzpicture}[syntaxdiagram]
+  \graph{
+    left expr0/left expr[definition],
+    i0 -!- i1 -!-
+    start --[start] p0 --
+    p1 -> f expr[nonterminal] -- p2 --[end] end;
+  };
+\end{tikzpicture}
+
+\noindent
+\begin{tikzpicture}[syntaxdiagram]
+  \graph{
+    f expr0/f expr[definition],
+    i0 -!- i1 -!-
+    start --[start] p0 --
+    p1 -> f expr[nonterminal] --
+    p2 -> a expr[nonterminal] --
+    p3 -> [end] end;
+
+    p1 --[skip way=0.5mm/-7mm] p2;
+  };
+\end{tikzpicture}
+
 \end{document}
 %
 %%% Local Variables:
