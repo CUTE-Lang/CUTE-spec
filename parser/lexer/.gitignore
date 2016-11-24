@@ -1,7 +1,5 @@
 *
 
 !.gitignore
-!tikz/
-
 !*.tex
 !*.pdf
