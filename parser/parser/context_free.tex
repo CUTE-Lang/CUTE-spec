@@ -1,5 +1,7 @@
 \documentclass[a4paper, article, oneside]{memoir}
 
+\usepackage{indentfirst}
+
 \usepackage{tikz}
 \usetikzlibrary{%
   arrows,%
@@ -124,29 +126,19 @@ Context-free grammer expressed by syntax diagram is the following.
   \graph{
     expr0/expr[definition],
     i0 -!- i1 -!-
-    start --[start]
-    p0 ->[vh way=0.5mm]
-    { if[terminal] -- p1 -> expr1/expr[nonterminal] -- p2 ->
-      then[terminal] -- p3 -> expr2/expr[nonterminal] -- p4 ->
-      else[terminal] -- p5 -> expr3/expr[nonterminal],
-      let[terminal] -- p7 -> f def[nonterminal] -- p8 ->
-      in[terminal] -- p9 -> expr4/expr[nonterminal],
-      p10,
-      infix expr[nonterminal] -- p11 ->[vh way=0.5mm]
-      { p12,
-        "::"[terminal] -- p13 -> type[nonterminal],
-      } --[hv way=0.5mm] p14,
+    start --[start] p0 --
+    p1 ->[vh way=0.5mm]
+    { infix expr[nonterminal] -- infp0 ->[vh way=0.5mm]
+      { infp1,
+        "$\dashv$"[terminal] -- infp2 -> type[nonterminal],
+      } --[hv way=0.5mm] infp3,
     } --[hv way=0.5mm]
-    p15 --[end] end;
+    p2 --[end] end;
 
-    p0 -- if;
-    p0 -!- p10;
-    expr3 -- p15;
-    p10 -!- p15;
+    p1 -- infix expr;
+    infp3 -- p2;
 
-    p8 --[rep way=0.5mm/-7mm] p7;
-
-    p11 -- p12 -- p14;
+    infp0 -- infp1 -- infp3;
   };
 \end{tikzpicture}
 
