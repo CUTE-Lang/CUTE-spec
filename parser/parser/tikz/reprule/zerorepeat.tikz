@@ -1,7 +1,13 @@
 \begin{tikzpicture}[syntaxdiagram]
   \graph{
-    start --[start] p0 -- p1 -> x[nonterminal] -- p2 -> p3 --[end] end;
+    start --[start] p0 --
+    p1 --[vh way=-0.5mm]
+    { p2,
+      x[nonterminal],
+    } --[hv way=-0.5mm]
+    p3 -> p4 --[end] end;
 
-    p2 --[rep way=0.5mm/-7mm] p1;
+    p3 ->[vh way=0.5mm] x ->[hv way=-0.5mm] -- p1;
+    p1 -- p2 -- p3;
   };
 \end{tikzpicture}
