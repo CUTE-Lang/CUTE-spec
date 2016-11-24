@@ -1,5 +1,12 @@
 \documentclass[a4paper, article, oneside]{memoir}
 
+\usepackage{fapapersize}
+\usefapapersize{
+  210mm,297mm,
+  35mm,35mm,
+  30mm,30mm
+}
+
 \usepackage{indentfirst}
 
 \usepackage{tikz}
@@ -26,6 +33,7 @@
 \usepackage{multirow}
 
 \begin{document}
+\pagestyle{ruled}
 \chapter{Context-free grammer for CUTE Lang}
 This chapter explains what context-free grammer is used in CUTE Lang.
 
@@ -249,6 +257,79 @@ Context-free grammer expressed by syntax diagram is the following.
     p5 -> p6 --[end] end;
 
     p1 --[skip way=0.5mm/-7mm] p4;
+  };
+\end{tikzpicture}
+
+\noindent
+\begin{tikzpicture}[syntaxdiagram]
+  \graph{
+    a expr0/a expr[definition],
+    i0 -!- i1 -!-
+    start --[start] p0 --
+    p1 --[vh way=0.5mm]
+    {
+      var p0 -> var var0/var[nonterminal] --
+      var p1,
+      %
+      literal p0 -> literal literal0/literal[nonterminal] --
+      literal p1,
+      %
+      list space0,
+      list p0 -> list squarebo0/"["[terminal] --
+      list p1 --[vh way=0.5mm]
+      {
+        list normal p0 -> list normal expr0/expr[nonterminal] --
+        list normal p1 -- list normal p2 -> list comma0/","[terminal] --
+        list normal p3 -> list normal p4 --
+        list normal p5 -> list normal p6,
+        list normal space0,
+        %
+        list enum p0 -> list enum expr0/expr[nonterminal] --
+        list enum p1 -- list enum p2 -> list enum expr1/expr[nonterminal] --
+        list enum p3 --
+        list enum p4 -> list enum dotdot0/".."[terminal] --
+        list enum p5 -> list enum expr2/expr[nonterminal] --
+        list enum p6,
+        list enum space0,
+      } --[hv way=0.5mm]
+      list p2 -> list squarebc0/"]"[terminal] --
+      list p3,
+      %
+      section p0 -> section roundbo0/"("[terminal] --
+      section p1 --[vh way=0.5mm]
+      {
+        no section p0 -> no section expr0/expr[nonterminal] --
+        no section p1,
+        %
+        left section p0 -> left section infix expr0/infix expr[nonterminal] --
+        left section p1 -> left section biop0/biop[nonterminal] --
+        left section p2,
+        %
+        right section p0 -> right section biop0/biop${}_{/unop}$[nonterminal] --
+        right section p1 -> right section infix expr0/infix expr[nonterminal] --
+        right section p2,
+      } --[hv way=0.5mm]
+      section p2 -> section roundbc0/")"[terminal] --
+      section p3,
+    } --[hv way=0.5mm]
+    p2 -> p3 --[end] end;
+
+    p1 -- var p0;
+    var p1 -- p2;
+
+    p1 -!- list space0 -!- p2;
+    list p1 -- list normal p0;
+    list normal p6 -- list p2;
+
+    list p1 -!- list normal space0 -!- list p2;
+    list normal p3 --[rep way=0.5mm/7mm] list normal p0;
+    list normal p1 --[skip way=0.5mm/-7mm] list normal p5;
+
+    list p1 -!- list enum space0 -!- list p2;
+    list enum p1 --[skip way=0.5mm/-7mm] list enum p4;
+
+    section p1 -- no section p0;
+    no section p1 -- section p2;
   };
 \end{tikzpicture}
 
