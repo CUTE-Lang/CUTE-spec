@@ -75,9 +75,6 @@ Context-free grammer expressed by syntax diagram is the following.
     {
       top f def p0 -> top f def[nonterminal] --
       top f def p1,
-      %
-      top gen def p0 -> top gen def[nonterminal] --
-      top gen def p1,
     } --[hv way=0.5mm]
     p2 -> p3 --[end] end;
 
@@ -104,6 +101,28 @@ Context-free grammer expressed by syntax diagram is the following.
 \noindent
 \begin{tikzpicture}[syntaxdiagram]
   \graph{
+    f defs0/f defs[definition],
+    i0 -!- i1 -!-
+    start --[start] p0 --
+    p1 -> curlybo0/\{[terminal] --
+    p2 --[vh way=0.5mm]
+    {
+      f def[nonterminal],
+      comma0/","[terminal],
+    } --[hv way=0.5mm]
+    p3 -> comma1/","[terminal] --
+    p4 -> curlybc0/\}[terminal] --
+    p5 -> p6 --[end] end;
+
+    p2 -> f def -- p3;
+    p3 ->[vh way=0.5mm]
+    comma0 --[hv way=0.5mm] p2;
+  };
+\end{tikzpicture}
+
+\noindent
+\begin{tikzpicture}[syntaxdiagram]
+  \graph{
     f def0/f def[definition],
     i0 -!- i1 -!-
     start --[start] p0 --
@@ -118,16 +137,17 @@ Context-free grammer expressed by syntax diagram is the following.
   \graph{
     f head0/f head[definition],
     i0 -!- i1 -!-
-    start --[start] p0 -> f id[nonterminal] --
+    start --[start] p0 -> var[nonterminal] --
     p1 --[vh way=0.5mm]
     {
-      param q0,
-      param param pat0/param pat[nonterminal] --
+      param space0,
+      param id0/id[nonterminal],
     } --[hv way=0.5mm]
     p2 -> p3 --[end] end;
 
-    p1 -- param q0 -- p2;
-    p2 ->[vh way=0.5mm] param param pat0 --[hv way=0.5mm] p1;
+    p1 -- param space0 -- p2;
+    p2 ->[vh way=0.5mm]
+    param id0 --[hv way=0.5mm] p1;
   };
 \end{tikzpicture}
 
@@ -149,10 +169,8 @@ Context-free grammer expressed by syntax diagram is the following.
     i0 -!- i1 -!-
     start --[start] p0 --
     p1 -> with[terminal] --
-    p2 -> f def[nonterminal] --
+    p2 -> f defs[nonterminal] --
     p3 -> p4 --[end] end;
-
-    p3 --[rep way=0.5mm/-7mm] p2;
   };
 \end{tikzpicture}
 
@@ -164,7 +182,7 @@ Context-free grammer expressed by syntax diagram is the following.
     start --[start] p0 --
     p1 -> infix expr[nonterminal] --
     p2 -- p3 -> ":"[terminal] --
-    p4 -> type expr[nonterminal] --
+    p4 -> type[nonterminal] --
     p5 --
     p6 -> p7 --[end] end;
 
@@ -173,11 +191,13 @@ Context-free grammer expressed by syntax diagram is the following.
 \end{tikzpicture}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% If [If expression] is an left expression,
+%  If [If expr] is an left expression,
 % we cannot deterministically parse following statement.
 % ```
 %  if true then 1 else 2 + 3
 % ```
+%  This is same for [Lambda expr], [Let expr],
+% and etc. too.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \noindent
@@ -209,14 +229,13 @@ Context-free grammer expressed by syntax diagram is the following.
       if p6,
       % 
       let p0 -> let[terminal] --
-      let p1 -> let f def0/f def[nonterminal] --
+      let p1 -> let f defs0/f defs[nonterminal] --
       let p2 -> in[terminal] --
       let p3 -> let expr0/expr[nonterminal] --
       let p4,
-      let space0,
       % 
       lam p0 -> "$\lambda$"[terminal] --
-      lam p1 -> lam param pat0/param pat[nonterminal] --
+      lam p1 -> lam id0/id[nonterminal] --
       lam p2 -> "$\rightarrow$"[terminal] --
       lam p3 -> lam expr0/expr[nonterminal] --
       lam p4,
@@ -226,9 +245,6 @@ Context-free grammer expressed by syntax diagram is the following.
 
     p1 -- biop p0;
     biop p3 -- p2;
-
-    p1 -!- let space0 -!- p2;
-    let p2 --[rep way=0.5mm/-7mm] let p1;
 
     p1 -!- lam space0 -!- p2;
     lam p2 --[rep way=0.5mm/-7mm] lam p1;
@@ -274,22 +290,24 @@ Context-free grammer expressed by syntax diagram is the following.
       literal p0 -> literal literal0/literal[nonterminal] --
       literal p1,
       %
-      list space0,
       list p0 -> list squarebo0/"["[terminal] --
       list p1 --[vh way=0.5mm]
       {
-        list normal p0 -> list normal expr0/expr[nonterminal] --
-        list normal p1 -- list normal p2 -> list comma0/","[terminal] --
-        list normal p3 -> list normal p4 --
-        list normal p5 -> list normal p6,
-        list normal space0,
+        list normal p0 --[vh way=0.5mm]
+        {
+          list normal expr0/expr[nonterminal],
+          list normal comma0/","[terminal],
+        } --[hv way=0.5mm]
+        list normal p1 -> list normal comma1/","[terminal] --
+        list normal p2,
         %
         list enum p0 -> list enum expr0/expr[nonterminal] --
-        list enum p1 -- list enum p2 -> list enum expr1/expr[nonterminal] --
-        list enum p3 --
-        list enum p4 -> list enum dotdot0/".."[terminal] --
-        list enum p5 -> list enum expr2/expr[nonterminal] --
-        list enum p6,
+        list enum p1 -- list enum p2 -> list enum comma0/","[terminal] --
+        list enum p3 -> list enum expr1/expr[nonterminal] --
+        list enum p4 --
+        list enum p5 -> list enum dotdot0/".."[terminal] --
+        list enum p6 -> list enum expr2/expr[nonterminal] --
+        list enum p7,
         list enum space0,
       } --[hv way=0.5mm]
       list p2 -> list squarebc0/"]"[terminal] --
@@ -319,17 +337,88 @@ Context-free grammer expressed by syntax diagram is the following.
 
     p1 -!- list space0 -!- p2;
     list p1 -- list normal p0;
-    list normal p6 -- list p2;
+    list normal p2 -- list p2;
 
-    list p1 -!- list normal space0 -!- list p2;
-    list normal p3 --[rep way=0.5mm/7mm] list normal p0;
-    list normal p1 --[skip way=0.5mm/-7mm] list normal p5;
+    list normal p0 -> list normal expr0 -- list normal p1;
+    list normal p1 ->[vh way=0.5mm]
+    list normal comma0 --[hv way=0.5mm] list normal p0;
 
     list p1 -!- list enum space0 -!- list p2;
-    list enum p1 --[skip way=0.5mm/-7mm] list enum p4;
+    list enum p1 --[skip way=0.5mm/-7mm] list enum p5;
 
     section p1 -- no section p0;
     no section p1 -- section p2;
+  };
+\end{tikzpicture}
+
+\noindent
+\begin{tikzpicture}[syntaxdiagram]
+  \graph{
+    type0/type[definition],
+    i0 -!- i1 -!-
+    start --[start] p0 --
+    p1 -- p2 -> "$\forall$"[terminal] --
+    p3 -> var[nonterminal] --
+    p4 -> ","[terminal] --
+    p5 --
+    p6 -> f type[nonterminal] --
+    p7 -> p8 --[end] end;
+
+    p1 --[skip way=0.5mm/-10.5mm] p6;
+    p4 --[rep way=0.5mm/-7mm] p3;
+  };
+\end{tikzpicture}
+
+\noindent
+\begin{tikzpicture}[syntaxdiagram]
+  \graph{
+    f type0/f type[definition],
+    i0 -!- i1 -!-
+    start --[start] p0 --
+    p1 -> c type[nonterminal] --
+    p2 -- p3 -> "$\rightarrow{}$"[terminal] --
+    p4 -> f type1/f type[nonterminal] --
+    p5 --
+    p6 -> p7 --[end] end;
+
+    p2 --[skip way=0.5mm/-7mm] p6
+  };
+\end{tikzpicture}
+
+\noindent
+\begin{tikzpicture}[syntaxdiagram]
+  \graph{
+    c type0/c type[definition],
+    i0 -!- i1 -!-
+    start --[start] p0 --
+    p1 -- p2 -> c type1/c type[nonterminal] -- p3 --
+    p4 -> a type[nonterminal] --
+    p5 -> p6 --[end] end;
+
+    p1 --[skip way=0.5mm/-7mm] p4;
+  };
+\end{tikzpicture}
+
+\noindent
+\begin{tikzpicture}[syntaxdiagram]
+  \graph{
+    a type0/a type[definition],
+    i0 -!- i1 -!-
+    start --[start] p0 --
+    p1 --[vh way=0.5mm]
+    {
+      type var p0 -> type var var0/var[nonterminal] --
+      type var p1,
+      %
+      type prec p0 -> type prec roundbo0/"("[terminal] --
+      type prec p1 -> type prec type0/type[nonterminal] --
+      type prec p2 -> type prec roundbc0/")"[terminal] --
+      type prec p3,
+    } --[hv way=0.5mm]
+    p2 -> p3 --[end] end;
+
+    p1 -- type var p0;
+    type var p1 -- p2;
   };
 \end{tikzpicture}
 
