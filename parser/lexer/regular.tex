@@ -1,4 +1,4 @@
-\documentclass[a4paper, article, oneside]{memoir}
+\documentclass[a4paper, article, oneside, 10pt]{memoir}
 
 \usepackage{fapapersize}
 \usefapapersize{
@@ -9,15 +9,56 @@
 
 \usepackage{indentfirst}
 
-\usepackage{tikz}
-
-\usepackage{syntax}
+\usepackage{minted}
 
 \usepackage{multirow}
 
 \begin{document}
 \pagestyle{ruled}
-\chapter{Regular grammer for CUTE Lang}
-This chapter explains what regular grammer is used in CUTE Lang.
+\chapter{Regular Grammar for CUTE Lang}
+This chapter explains what regular grammar is used in CUTE Lang.
+
+\section{EBNF}
+To explain without any complexity, grammar is explained by EBNF (Extended BNF).
+
+\subsection{EBNF for Regular Grammar}
+
+\begin{minted}{ebnf}
+program                 = { whites | lexeme } .
+
+whites                  = white .
+white                   = whitechar | comment .
+
+whitechar               = newline | vtab | tab | space .
+newline                 = cr lf | cr | lf | ff .
+cr                      = "\r" .
+lf                      = "\n" .
+ff                      = "\f" .
+vtab                    = "\v" .
+tab                     = "\t" .
+space                   = " " .
+
+comment                 = sl com | ml com .
+sl com                  = sl beg, { sl any }, [ newline ] .
+sl beg                  = "//" .
+sl any                  = printable | space | tab .
+ml com                  = ml beg, ml anys, { ml com, ml anys }, ml end .
+ml beg                  = "/*" .
+ml end                  = "*/" .
+ml anys                 = { ml any }
+                          - ( { ml any } ( ml beg | ml end ) { ml any } ) .
+ml any                  = printable | whitechar .
+
+lexeme                  = id | sym | type literal | value literal
+                        | special | res sym | res id .
+type literal            = simple type | wrapper type literal .
+value literal           = integer | float | char | string .
+special                 = "{" | "}" | "," | ";" | "[" | "]" | "(" | ")" .
+\end{minted}
 
 \end{document}
+%
+%%% Local Variables:
+%%% TeX-engine: xetex
+%%% TeX-command-extra-options: "-shell-escape"
+%%% End:
