@@ -1,4 +1,4 @@
-\documentclass[a4paper, article, oneside]{memoir}
+\documentclass[a4paper, article, oneside, 10pt]{memoir}
 
 \usepackage{fapapersize}
 \usefapapersize{
@@ -34,13 +34,13 @@
 
 \begin{document}
 \pagestyle{ruled}
-\chapter{Context-free grammar for CUTE Lang}
+\chapter{Context-free Grammar for CUTE Lang}
 This chapter explains what context-free grammar is used in CUTE Lang.
 
-\section{Syntax diagram}
+\section{Syntax Diagram}
 To explain efficiently, grammar is explained by syntax diagram first.
 
-\subsection{Syntax diagram representation rules}
+\subsection{Syntax Diagram Representation Rules}
 Representation rules for our syntax diagram are on Table~\ref{tab:Representation_rules_of_syntax_diagram}.
 
 \begin{table}[!htb]
@@ -62,7 +62,7 @@ Representation rules for our syntax diagram are on Table~\ref{tab:Representation
   \label{tab:Representation_rules_of_syntax_diagram}
 \end{table}
 
-\subsection{Syntax diagram for context-free grammar}
+\subsection{Syntax Diagram for Context-free Grammar}
 Context-free grammar expressed by syntax diagram is the following.
 
 % If we use `top def' instead of `top st',
@@ -241,7 +241,7 @@ Context-free grammar expressed by syntax diagram is the following.
       let p2 -> in[terminal] --
       let p3 -> let expr0/expr[nonterminal] --
       let p4,
-      % 
+      %
       lam p0 -> "$\lambda$"[terminal] --
       lam p1 -> lam id0/id[nonterminal] --
       lam p2 -> "$\rightarrow$"[terminal] --
@@ -295,7 +295,7 @@ Context-free grammar expressed by syntax diagram is the following.
       var p0 -> var var0/var[nonterminal] --
       var p1,
       %
-      value literal p0 -> value literal literal0/value literal[nonterminal] --
+      value literal p0 -> value literal value literal0/value literal[nonterminal] --
       value literal p1,
       %
       list p0 -> list squarebo0/"["[terminal] --
@@ -397,7 +397,7 @@ Context-free grammar expressed by syntax diagram is the following.
     i0 -!- i1 -!-
     start --[start] p0 --
     p1 -> c type[nonterminal] --
-    p2 -- p3 -> "$\rightarrow{}$"[terminal] --
+    p2 -- p3 -> "$\rightarrow$"[terminal] --
     p4 -> f type1/f type[nonterminal] --
     p5 --
     p6 -> p7 --[end] end;
@@ -431,7 +431,7 @@ Context-free grammar expressed by syntax diagram is the following.
       type var p0 -> type var var0/var[nonterminal] --
       type var p1,
       %
-      type literal p0 -> type literal type literal 0/type literal[nonterminal] --
+      type literal p0 -> type literal type literal0/type literal[nonterminal] --
       type literal p1,
       %
       type prec p0 -> type prec roundbo0/"("[terminal] --
