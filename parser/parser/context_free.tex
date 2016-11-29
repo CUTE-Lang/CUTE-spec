@@ -65,16 +65,23 @@ Representation rules for our syntax diagram are on Table~\ref{tab:Representation
 \subsection{Syntax diagram for context-free grammer}
 Context-free grammer expressed by syntax diagram is the following.
 
+% If we use `top def' instead of `top st',
+% then we can't seperate `module def' as `module st'.
+% Does we need to set the level of `module def'
+% to same level of `top f def'?
 \noindent
 \begin{tikzpicture}[syntaxdiagram]
   \graph{
-    top def[definition],
+    top st[definition],
     i0 -!- i1 -!-
     start --[start] p0 --
     p1 --[vh way=0.5mm]
     {
       top f def p0 -> top f def[nonterminal] --
       top f def p1,
+      %
+      top f typing p0 -> top f typing[nonterminal] --
+      top f typing p1,
     } --[hv way=0.5mm]
     p2 -> p3 --[end] end;
 
@@ -143,7 +150,8 @@ Context-free grammer expressed by syntax diagram is the following.
       param space0,
       param id0/id[nonterminal],
     } --[hv way=0.5mm]
-    p2 -> p3 --[end] end;
+    p2 -> coloneq0/":="[terminal] --
+    p3 -> p4 --[end] end;
 
     p1 -- param space0 -- p2;
     p2 ->[vh way=0.5mm]
@@ -287,8 +295,8 @@ Context-free grammer expressed by syntax diagram is the following.
       var p0 -> var var0/var[nonterminal] --
       var p1,
       %
-      literal p0 -> literal literal0/literal[nonterminal] --
-      literal p1,
+      value literal p0 -> value literal literal0/value literal[nonterminal] --
+      value literal p1,
       %
       list p0 -> list squarebo0/"["[terminal] --
       list p1 --[vh way=0.5mm]
@@ -354,6 +362,19 @@ Context-free grammer expressed by syntax diagram is the following.
 \noindent
 \begin{tikzpicture}[syntaxdiagram]
   \graph{
+    top f typing0/top f typing[definition],
+    i0 -!- i1 -!-
+    start --[start] p0 --
+    p1 -- p2 -> var[nonterminal] --
+    p3 -> colon0/":"[terminal] --
+    p4 -> type0/type[nonterminal] --
+    p5 -> p6 --[end] end;
+  };
+\end{tikzpicture}
+
+\noindent
+\begin{tikzpicture}[syntaxdiagram]
+  \graph{
     type0/type[definition],
     i0 -!- i1 -!-
     start --[start] p0 --
@@ -409,6 +430,9 @@ Context-free grammer expressed by syntax diagram is the following.
     {
       type var p0 -> type var var0/var[nonterminal] --
       type var p1,
+      %
+      type literal p0 -> type literal type literal 0/type literal[nonterminal] --
+      type literal p1,
       %
       type prec p0 -> type prec roundbo0/"("[terminal] --
       type prec p1 -> type prec type0/type[nonterminal] --
