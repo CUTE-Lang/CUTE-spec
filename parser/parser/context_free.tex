@@ -65,10 +65,12 @@ Representation rules for our syntax diagram are on Table~\ref{tab:Representation
 \subsection{Syntax Diagram for Context-free Grammar}
 Context-free grammar expressed by syntax diagram is the following.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % If we use `top def' instead of `top st',
 % then we can't seperate `module def' as `module st'.
 % Does we need to set the level of `module def'
 % to same level of `top f def'?
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \noindent
 \begin{tikzpicture}[syntaxdiagram]
   \graph{
@@ -115,15 +117,19 @@ Context-free grammar expressed by syntax diagram is the following.
     p2 --[vh way=0.5mm]
     {
       f def[nonterminal],
-      comma0/","[terminal],
+      comma0/";"[terminal],
     } --[hv way=0.5mm]
-    p3 -> comma1/","[terminal] --
-    p4 -> curlybc0/\}[terminal] --
-    p5 -> p6 --[end] end;
+    p3 --
+    p4 -- p5 -> comma1/";"[terminal] --
+    p6 --
+    p7 -> curlybc0/\}[terminal] --
+    p8 -> p9 --[end] end;
 
     p2 -> f def -- p3;
     p3 ->[vh way=0.5mm]
     comma0 --[hv way=0.5mm] p2;
+
+    p4 --[skip way=0.5mm/-7mm] p7;
   };
 \end{tikzpicture}
 
@@ -306,8 +312,10 @@ Context-free grammar expressed by syntax diagram is the following.
           list normal expr0/expr[nonterminal],
           list normal comma0/","[terminal],
         } --[hv way=0.5mm]
-        list normal p1 -> list normal comma1/","[terminal] --
-        list normal p2,
+        list normal p1 --
+        list normal p2 -- list normal p3 -> list normal comma1/","[terminal] --
+        list normal p4 --
+        list normal p5 -> list normal p6,
         %
         list enum p0 -> list enum expr0/expr[nonterminal] --
         list enum p1 -- list enum p2 -> list enum comma0/","[terminal] --
@@ -345,11 +353,12 @@ Context-free grammar expressed by syntax diagram is the following.
 
     p1 -!- list space0 -!- p2;
     list p1 -- list normal p0;
-    list normal p2 -- list p2;
+    list normal p6 -- list p2;
 
     list normal p0 -> list normal expr0 -- list normal p1;
     list normal p1 ->[vh way=0.5mm]
     list normal comma0 --[hv way=0.5mm] list normal p0;
+    list normal p2 --[skip way=0.5mm/-7mm] list normal p5;
 
     list p1 -!- list enum space0 -!- list p2;
     list enum p1 --[skip way=0.5mm/-7mm] list enum p5;
