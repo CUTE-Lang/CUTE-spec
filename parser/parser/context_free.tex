@@ -446,6 +446,28 @@ Context-free grammar expressed by syntax diagram is the following.
   };
 \end{tikzpicture}
 
+\noindent
+\begin{tikzpicture}[syntaxdiagram]
+  \graph{
+    var0/var[definition],
+    i0 -!- i1 -!-
+    start --[start] p0 --
+    p1 --[vh way=0.5mm]
+    {
+      var id p0 -> var id0/id[nonterminal] --
+      var id p1,
+      var sym p0 -> var sym roundo0/"("[terminal] --
+      var sym p1 -> var sym sym0/sym[nonterminal] --
+      var sym p2 -> var sym roundc0/")"[terminal] --
+      var sym p3
+    } --[hv way=0.5mm]
+    p2 -> p3 --[end] end;
+
+    p1 -- var id p0;
+    var id p1 -- p2;
+  };
+\end{tikzpicture}
+
 \end{document}
 %
 %%% Local Variables:
