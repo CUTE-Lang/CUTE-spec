@@ -9,6 +9,9 @@
 
 \usepackage{indentfirst}
 
+\usepackage{amsmath}
+\usepackage{amssymb}
+
 \usepackage{tikz}
 \usetikzlibrary{%
   arrows,%
@@ -222,14 +225,14 @@ Context-free grammar expressed by syntax diagram is the following.
     start --[start] p0 --
     p1 --[vh way=0.5mm]
     {
-      biop p0 -> biop left expr0/left expr[nonterminal] --
-      biop p1 -> biop biop0/biop[nonterminal] --
-      biop p2 -> biop infix expr0/infix expr[nonterminal] --
-      biop p3,
+      bi op p0 -> bi op left expr0/left expr[nonterminal] --
+      bi op p1 -> bi op bi op0/bi op[nonterminal] --
+      bi op p2 -> bi op infix expr0/infix expr[nonterminal] --
+      bi op p3,
       %
-      unop p0 -> unop unop0/unop[nonterminal] --
-      unop p1 -> unop left expr0/left expr[nonterminal] --
-      unop p2,
+      un op p0 -> un op un op0/un op[nonterminal] --
+      un op p1 -> un op left expr0/left expr[nonterminal] --
+      un op p2,
       %
       left expr p0 -> left expr left expr0/left expr[nonterminal] --
       left expr p1,
@@ -257,8 +260,8 @@ Context-free grammar expressed by syntax diagram is the following.
     } --[hv way=0.5mm]
     p2 -> p3 --[end] end;
 
-    p1 -- biop p0;
-    biop p3 -- p2;
+    p1 -- bi op p0;
+    bi op p3 -- p2;
 
     p1 -!- lam space0 -!- p2;
     lam p2 --[rep way=0.5mm/-7mm] lam p1;
@@ -336,10 +339,10 @@ Context-free grammar expressed by syntax diagram is the following.
         no section p1,
         %
         left section p0 -> left section infix expr0/infix expr[nonterminal] --
-        left section p1 -> left section biop0/biop[nonterminal] --
+        left section p1 -> left section bi op0/bi op[nonterminal] --
         left section p2,
         %
-        right section p0 -> right section biop0/biop${}_{/unop}$[nonterminal] --
+        right section p0 -> right section bi op0/bi op${}_{/un op}$[nonterminal] --
         right section p1 -> right section infix expr0/infix expr[nonterminal] --
         right section p2,
       } --[hv way=0.5mm]
@@ -465,15 +468,68 @@ Context-free grammar expressed by syntax diagram is the following.
     {
       var id p0 -> var id0/id[nonterminal] --
       var id p1,
-      var sym p0 -> var sym roundo0/"("[terminal] --
-      var sym p1 -> var sym sym0/sym[nonterminal] --
-      var sym p2 -> var sym roundc0/")"[terminal] --
-      var sym p3
+      var op p0 -> var op roundo0/"("[terminal] --
+      var op p1 -> var op op0/op[nonterminal] --
+      var op p2 -> var op roundc0/")"[terminal] --
+      var op p3,
     } --[hv way=0.5mm]
     p2 -> p3 --[end] end;
 
     p1 -- var id p0;
     var id p1 -- p2;
+  };
+\end{tikzpicture}
+
+\noindent
+\begin{tikzpicture}[syntaxdiagram]
+  \graph{
+    op0/op[definition],
+    i0 -!- i1 -!-
+    start --[start] p0 --
+    p1 --[vh way=0.5mm]
+    {
+      bi op p0 -> bi op0/bi op[nonterminal] --
+      bi op p1,
+      un op p0 -> un op0/un op[nonterminal] --
+      un op p1,
+    } --[hv way=0.5mm]
+    p2 -> p3 --[end] end;
+
+    p1 -- bi op p0;
+    bi op p1 -- p2;
+  };
+\end{tikzpicture}
+
+\noindent
+\begin{tikzpicture}[syntaxdiagram]
+  \graph{
+    bi op0/bi op[definition],
+    i0 -!- i1 -!-
+    start --[start] p0 --
+    p1 --[vh way=0.5mm]
+    {
+      bi sym p0 -> bi sym0/bi sym[nonterminal] --
+      bi sym p1,
+      bi fun p0 -> bi fun backquote0/"${}^\backprime$"[terminal] --
+      bi fun p1 -> bi fun var0/var[nonterminal] --
+      bi fun p2 -> bi fun backquote1/"${}^\backprime$"[terminal] --
+      bi fun p3
+    } --[hv way=0.5mm]
+    p2 -> p3 --[end] end;
+
+    p1 -- bi sym p0;
+    bi sym p1 -- p2;
+  };
+\end{tikzpicture}
+
+\noindent
+\begin{tikzpicture}[syntaxdiagram]
+  \graph{
+    un op0/un op[definition],
+    i0 -!- i1 -!-
+    start --[start] p0 --
+    p1 -> un sym[nonterminal] --
+    p2 -> p3 --[end] end;
   };
 \end{tikzpicture}
 
