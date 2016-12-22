@@ -1,5 +1,11 @@
 # CUTE Lang Specification
 
+## CUTE Lang Path Spec
+
+1. [Path Spec - Standard compiler path spec][path]
+
+[path]: path/path.pdf
+
 ## CUTE Lang Parser Spec
 
 1. [Lexer Spec - Regular grammer spec][lexer]

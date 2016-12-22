@@ -1,0 +1,57 @@
+\documentclass[a4paper, article, oneside, 10pt]{memoir}
+
+\usepackage{fapapersize}
+\usefapapersize{
+  210mm,297mm,
+  35mm,35mm,
+  30mm,30mm
+}
+
+\usepackage{indentfirst}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{tikz}
+
+\usepackage{multirow}
+
+\begin{document}
+\pagestyle{ruled}
+\chapter{CUTE Standard Compiler Path Listing}
+This chapter lists path used by CUTE standard compiler.
+In following section, I abbreviate CUTE standard compiler to \textbf{the compiler}.
+
+\section{Common frontend}
+\subsection{Preprocessor}
+First path of the compiler is a preprocessor.
+
+\subsection{Parser}
+Second path of the compiler is a parser.
+
+It use lexical analyzer (lexer) to make token,
+and syntactic analyzer (parser) to make AST.
+
+\subsection{Semantic Analyzer}
+Third path of the compiler is a semantic analyzer.
+
+\subsection{IR Generator}
+Fourth path of the compiler is a IR generator.
+
+\section{Interpreter backend}
+\subsection{Interpreter}
+Fifth path of the compiler is a interpreter.
+
+\section{Compiler backend}
+\subsection{IR converter}
+Fifth path of the compiler is a IR converter.
+
+\subsection{Code Generator}
+Sixth path of the compiler is a code generator.
+
+\end{document}
+%
+%%% Local Variables:
+%%% TeX-engine: xetex
+%%% TeX-command-extra-options: "-shell-escape"
+%%% End:
