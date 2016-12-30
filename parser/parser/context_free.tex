@@ -1,5 +1,7 @@
 \documentclass[a4paper, article, oneside, 10pt]{memoir}
 
+\usepackage{url}
+
 \usepackage{fapapersize}
 \usefapapersize{
   210mm,297mm,
@@ -342,7 +344,7 @@ Context-free grammar expressed by syntax diagram is the following.
         left section p1 -> left section bi op0/bi op[nonterminal] --
         left section p2,
         %
-        right section p0 -> right section bi op0/bi op${}_{/un op}$[nonterminal] --
+        right section p0 -> right section bi op0/bi op${}_{\text{/un op}}$[nonterminal] --
         right section p1 -> right section infix expr0/infix expr[nonterminal] --
         right section p2,
       } --[hv way=0.5mm]
@@ -465,6 +467,7 @@ Context-free grammar expressed by syntax diagram is the following.
     {
       var id p0 -> var id0/id[nonterminal] --
       var id p1,
+      %
       var op p0 -> var op roundo0/"("[terminal] --
       var op p1 -> var op op0/op[nonterminal] --
       var op p2 -> var op roundc0/")"[terminal] --
@@ -487,6 +490,7 @@ Context-free grammar expressed by syntax diagram is the following.
     {
       bi op p0 -> bi op0/bi op[nonterminal] --
       bi op p1,
+      %
       un op p0 -> un op0/un op[nonterminal] --
       un op p1,
     } --[hv way=0.5mm]
@@ -505,12 +509,13 @@ Context-free grammar expressed by syntax diagram is the following.
     start --[start] p0 --
     p1 --[vh way=0.5mm]
     {
-      bi sym p0 -> bi sym0/bi sym[nonterminal] --
+      bi sym p0 -> bi sym sym0/sym[nonterminal] --
       bi sym p1,
+      %
       bi fun p0 -> bi fun backquote0/"${}^\backprime$"[terminal] --
       bi fun p1 -> bi fun var0/var[nonterminal] --
       bi fun p2 -> bi fun backquote1/"${}^\backprime$"[terminal] --
-      bi fun p3
+      bi fun p3,
     } --[hv way=0.5mm]
     p2 -> p3 --[end] end;
 
@@ -525,8 +530,18 @@ Context-free grammar expressed by syntax diagram is the following.
     un op0/un op[definition],
     i0 -!- i1 -!-
     start --[start] p0 --
-    p1 -> un sym[nonterminal] --
+    p1 --[vh way=0.5mm]
+    {
+      un minus p0 -> un minus minus0/"-"[terminal] --
+      un minus p1,
+      %
+      un not p0 -> un not tilde0/"\url{~}"[terminal] --
+      un not p1,
+    } --[hv way=0.5mm]
     p2 -> p3 --[end] end;
+
+    p1 -- un minus p0;
+    un minus p1 -- p2;
   };
 \end{tikzpicture}
 

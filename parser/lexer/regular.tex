@@ -49,8 +49,10 @@ ml anys                 = { ml any }
                           - ( { ml any }, ( ml beg | ml end ), { ml any } ) .
 ml any                  = printable .
 
-lexeme                  = bi sym | un sym | special | res sym | res id
+lexeme                  = sym | special | res sym | res id
                         | literal | id .
+sym                     = { symbol }
+                          - res sym .
 special                 = "{" | "}" | "," | ";" | "[" | "]" | "(" | ")" .
 literal                 = byte | integer | float
                         | char | string .
@@ -78,8 +80,8 @@ exponent                = ( "e" | "E" ), [ "+" | "-" ], decimal .
 
 char                    = "'" ( visible - ( "'" | "\" ) | space | escape ) "'" .
 string                  = '"' { visible - ( '"' | "\" ) | space | escape } '"' .
-printable               = visible | whitechar
-visible                 = lower | upper | bi sym | un sym | digit | special .
+printable               = visible | whitechar .
+visible                 = lower | upper | symbol | digit | special .
 lower                   = "a" | "b" | "c" | "d" | "e" | "f" | "g"
                         | "h" | "i" | "j" | "k" | "l" | "m" | "n"
                         | "o" | "p" | "q" | "r" | "s" | "t" | "u"
@@ -88,6 +90,9 @@ upper                   = "A" | "B" | "C" | "D" | "E" | "F" | "G"
                         | "H" | "I" | "J" | "K" | "L" | "M" | "N"
                         | "O" | "P" | "Q" | "R" | "S" | "T" | "U"
                         | "V" | "W" | "X" | "Y" | "Z" .
+symbol                  = "!" | "#" | "$" | "%" | "&" | "*" | "+"
+                        | "-" | "." | "/" | ":" | "<" | "=" | ">"
+                        | "?" | "@" | "\" | "^" | "|" | "~" .
 \end{minted}
 
 \end{document}
