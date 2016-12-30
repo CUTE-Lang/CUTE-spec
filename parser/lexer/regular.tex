@@ -41,18 +41,18 @@ space                   = " " .
 comment                 = sl com | ml com .
 sl com                  = sl beg, { sl any }, [ newline ] .
 sl beg                  = "//" .
-sl any                  = printable | space | tab .
+sl any                  = visible | space | tab .
 ml com                  = ml beg, ml anys, { ml com, ml anys }, ml end .
 ml beg                  = "/*" .
 ml end                  = "*/" .
 ml anys                 = { ml any }
-                          - ( { ml any } ( ml beg | ml end ) { ml any } ) .
-ml any                  = printable | whitechar .
+                          - ( { ml any }, ( ml beg | ml end ), { ml any } ) .
+ml any                  = visible | whitechar .
 
 lexeme                  = bi sym | un sym | special | res sym | res id
-                        | type literal | value literal | id .
-type literal            = simple type | wrapper type literal .
-value literal           = integer | float | char | string .
+                        | literal | id .
+literal                 = byte | integer | float
+                        | char | string .
 special                 = "{" | "}" | "," | ";" | "[" | "]" | "(" | ")" .
 \end{minted}
 

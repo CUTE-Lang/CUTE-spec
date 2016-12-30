@@ -304,8 +304,8 @@ Context-free grammar expressed by syntax diagram is the following.
       var p0 -> var var0/var[nonterminal] --
       var p1,
       %
-      value literal p0 -> value literal value literal0/value literal[nonterminal] --
-      value literal p1,
+      literal p0 -> literal literal0/literal[nonterminal] --
+      literal p1,
       %
       list p0 -> list squarebo0/"["[terminal] --
       list p1 --[vh way=0.5mm]
@@ -442,9 +442,6 @@ Context-free grammar expressed by syntax diagram is the following.
     {
       type var p0 -> type var var0/var[nonterminal] --
       type var p1,
-      %
-      type literal p0 -> type literal type literal0/type literal[nonterminal] --
-      type literal p1,
       %
       type prec p0 -> type prec roundbo0/"("[terminal] --
       type prec p1 -> type prec type0/type[nonterminal] --
