@@ -3,4 +3,5 @@
 !.gitignore
 !path/
 !parser/
+!preprocessor/
 !README.md
