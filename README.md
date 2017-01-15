@@ -14,6 +14,12 @@
 [lexer]: parser/lexer/regular.pdf
 [parser]: parser/parser/context_free.pdf
 
+# Formal Proof with Coq
+
+1. [Semantics][semantics]
+
+[semantics]: formalproof/semantics.v
+
 ## Author
 
 - Junyoung Clare Jang
