@@ -16,9 +16,9 @@
 
 # Formal Proof with Coq
 
-1. [Semantics][semantics]
+1. [Semantics0][semantics0]
 
-[semantics]: formalproof/semantics.v
+[semantics0]: formalproof/semantics0.v
 
 ## Author
 

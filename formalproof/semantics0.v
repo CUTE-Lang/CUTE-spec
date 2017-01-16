@@ -58,43 +58,31 @@ Hint Constructors id.
 
 Lemma eq_id_dec: forall (i1 i2: id), {i1 = i2} + {i1 <> i2}.
 Proof.
-(********************
-
   intros i1 i2.
   destruct i1 as [n1]. destruct i2 as [n2].
   destruct (eq_nat_dec n1 n2).
   auto.
   right. intros contra. inversion contra. auto.
-Qed.coq-commenter automat154303401202ic
-********************)
-  Admitted.
+Qed.
 
 Lemma eq_id: forall T i (t0 t1: T),
     (if eq_id_dec i i then t0 else t1) = t0.
 Proof.
-(********************
-
   intros.
   destruct (eq_id_dec i i).
   - reflexivity.
   - exfalso. eauto.
-Qed.coq-commenter automat154303401202ic
-********************)
-  Admitted.
+Qed.
 
 Lemma neq_id : forall T i0 i1 (t0 t1:T),
     i0 <> i1 ->
     (if eq_id_dec i0 i1 then t0 else t1) = t1.
 Proof.
-(********************
-
   intros.
   destruct (eq_id_dec i0 i1).
   - exfalso. eauto.
   - reflexivity.
-Qed.coq-commenter automat154303401202ic
-********************)
-  Admitted.
+Qed.
 
 Inductive tm: Type :=
 (* Error/Undefined *)
@@ -324,7 +312,7 @@ Inductive smst: Relation tm :=
 
 | SmstAppStep: forall tlam0 tlam1 tapp,
     tlam0 ==> tlam1 ->
-    TmApp tlam0 tapp ==> TmApp tlam0 tapp
+    TmApp tlam0 tapp ==> TmApp tlam1 tapp
 | SmstAppLam: forall ipar Tpar tres tapp,
     TmApp (TmLam ipar Tpar tres) tapp ==> [ipar <- tapp] tres
 | SmstAppError: forall tapp,
@@ -410,28 +398,20 @@ Theorem mltLift: forall (T: Type) (R: Relation T) (t0 t1: T),
     R t0 t1 ->
     mlt R t0 t1.
 Proof.
-(********************
-
   intros T R t0 t1 smst.
   eauto.
-Qed.coq-commenter automat154303401202ic
-********************)
-  Admitted.
+Qed.
 
 Theorem mltTrans: forall (T: Type) (R: Relation T) (t0 t1 t2: T),
     mlt R t0 t1 ->
     mlt R t1 t2 ->
     mlt R t0 t2.
 Proof.
-(********************
-
   intros T R t0 t1 t2 mlt0 mlt1.
   induction mlt0 as [t0|t0 t1].
   - auto.
   - eauto.
-Qed.coq-commenter automat154303401202ic
-********************)
-  Admitted.
+Qed.
 
 
 
@@ -448,25 +428,17 @@ Hint Unfold extend.
 Lemma extend_eq: forall K (G: idPartialMap K) i T,
     (extend G i T) i = Some T.
 Proof.
-(********************
-
   intros.
   unfold extend. rewrite eq_id. reflexivity.
-Qed.coq-commenter automat154303401202ic
-********************)
-  Admitted.
+Qed.
 
 Lemma extend_neq: forall K (G: idPartialMap K) i0 i1 T,
     i0 <> i1 ->
     (extend G i0 T) i1 = G i1.
 Proof.
-(********************
-
   intros.
   unfold extend. rewrite neq_id; auto.
-Qed.coq-commenter automat154303401202ic
-********************)
-  Admitted.
+Qed.
 
 Definition tyCtxt: Type := idPartialMap ty.
 
@@ -614,8 +586,6 @@ Theorem progress : forall t T,
     emptyMap |- t :| T ->
     val t \/ exists t', t ==> t'.
 Proof with eauto.
-(********************
-
   intros t T typed.
   remember emptyMap as G.
   generalize dependent HeqG.
@@ -683,9 +653,7 @@ Proof with eauto.
 
   - (* TmVar *)
     inversion H.
-Qed.coq-commenter automat154303401202ic
-********************)
-  Admitted.
+Qed.
 
 Hint Immediate progress.
 
@@ -784,8 +752,6 @@ Lemma context_invariance: forall (TC0 TC1: tyCtxt) t T,
     (forall i, freeVar i t -> TC0 i = TC1 i) ->
     TC1 |- t :| T.
 Proof with eauto.
-(********************
-
   intros TC0 TC1 t T typed eqFreeVar.
   generalize dependent TC1.
   induction typed; intros;
@@ -808,9 +774,7 @@ Proof with eauto.
     + apply IHtyped2. intros.
       unfold extend.
       destruct (eq_id_dec ilet i)...
-Qed.coq-commenter automat154303401202ic
-********************)
-  Admitted.
+Qed.
 
 Hint Immediate context_invariance.
 
@@ -820,8 +784,6 @@ Lemma free_in_context: forall TC i t T0,
     freeVar i t ->
     exists T1, TC i = Some T1.
 Proof with eauto.
-(********************
-
   intros TC i t T0 typed free.
   induction typed; intros; inversion free; subst...
   - (* TmLam *)
@@ -832,9 +794,7 @@ Proof with eauto.
     destruct IHtyped2... exists x.
     rewrite <- H. unfold extend.
     rewrite neq_id...
-Qed.coq-commenter automat154303401202ic
-********************)
-  Admitted.
+Qed.
 
 Hint Immediate free_in_context.
 
@@ -844,8 +804,6 @@ Lemma substitution_preserves_typing: forall TC i s S t T,
     emptyMap |- s :| S ->
     TC |- ([i <- s] t) :| T.
 Proof with eauto.
-(********************
-
   intros TC i s S t T typed0 typed1.
   generalize dependent T.
   generalize dependent S.
@@ -888,9 +846,7 @@ Proof with eauto.
       intros. subst. unfold extend.
       destruct (eq_id_dec i i1); destruct (eq_id_dec i0 i1); subst...
       exfalso...
-Qed.coq-commenter automat154303401202ic
-********************)
-  Admitted.
+Qed.
 
 Hint Immediate substitution_preserves_typing.
 
@@ -900,8 +856,6 @@ Theorem preservation: forall t0 t1 T,
     t0 ==> t1 ->
     emptyMap |- t1 :| T.
 Proof with eauto.
-(********************
-
   intros t0 t1 T typed step.
   remember emptyMap as TC. generalize dependent HeqTC.
   generalize dependent t1.
@@ -927,9 +881,7 @@ Proof with eauto.
     inversion step; subst...
     eapply substitution_preserves_typing...
     inversion typed; subst...
-Qed.coq-commenter automat154303401202ic
-********************)
-  Admitted.
+Qed.
 
 Hint Immediate preservation.
 
@@ -950,14 +902,10 @@ Theorem soundness: forall t0 t1 T,
     t0 ==>* t1 ->
     ~ stnmlfm t1 \/ val t1.
 Proof with eauto.
-(********************
-
   intros t0 t1 T typed mltstep.
   induction mltstep...
   - apply progress in typed.
     destruct typed...
-Qed.coq-commenter automat154303401202ic
-********************)
-  Admitted.
+Qed.
 
 Hint Immediate soundness.
